@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>User Information and Form</title>
+
+<!--JQUERY-->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- FRAMEWORK BOOTSTRAP para el estilo de la pagina-->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+	integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	crossorigin="anonymous"></script>
+
+<!-- Los iconos tipo Solid de Fontawesome-->
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css">
+<script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+
+<!-- Nuestro css-->
+<link rel="stylesheet" type="text/css" href="static/css/user-form.css"
+	th:href="@{/css/user-form.css}">
+<!-- DATA TABLE -->
+<script
+	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script
+	src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+
+<script type="text/javascript" src="/js/register.js"></script>
+<style>
+p {
+	color: red;
+}
+</style>
+</head>
+<body>
+	<div class="container">
+		<div class="mx-auto col-sm-8 main-section" id="myTab" role="tablist">
+
+			<div class="tab-content" id="myTabContent">
+
+				<div class="tab-pane fade show" th:classappend=" ${formTab}"
+					id="form" role="tabpanel" aria-labelledby="form-tab">
+					<div class="card">
+						<div class="card-header">
+							<h4>Registro de datos</h4>
+						</div>
+						<div class="card-body">
+							<form id="formulario" name="formulario" class="form" role="form"
+								autocomplete="off" onsubmit="return validateForm()"
+								th:action="@{/register}" th:object="${userForm}" method="post">
+								<div class="form-group row">
+									<label class="col-lg-3 col-form-label form-control-label">Nombre</label>
+									<div class="col-lg-9">
+										<input class="form-control" type="text" id="nombre"
+											name="nombre" th:field="${userForm.nombre}"
+											th:disabled="${disableFields}">
+										<p id="nombreE">Debe ingresar un nombre</p>
+										<div class="alert-danger"
+											th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">Name
+											Error</div>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-lg-3 col-form-label form-control-label">Correo</label>
+									<div class="col-lg-9">
+										<input class="form-control" type="email" id="correo"
+											name="correo" th:field="${userForm.email}"
+											th:disabled="${disableFields}">
+										<p id="correoE">Debe ingresar su correo</p>
+										<div class="alert-danger"
+											th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name
+											Error</div>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-lg-3 col-form-label form-control-label">RFC</label>
+									<div class="col-lg-9">
+										<input class="form-control" type="text" id="rfc" name="rfc"
+											th:field="${userForm.rfc}" th:disabled="${disableFields}">
+										<p id="rfcE">Debe ingresar su RFC</p>
+										<p id="rfcE2">El RFC es invalido</p>
+										<div class="alert-danger" th:if="${#fields.hasErrors('rfc')}"
+											th:errors="*{rfc}">Name Error</div>
+									</div>
+								</div>
+								<div id="ocultarRol" class="form-group row">
+									<label th:text="Roles"
+										class="col-lg-3 col-form-label form-control-label"></label>
+									<div class="col-lg-9">
+										<select class="form-control" size="3" name="roles" id="roles"
+											th:field="${userForm.roles}" th:disabled="${disableFields}">
+											<option value="2" selected>USER</option>
+											<!--option th:each="role :${roles}" th:value="${role.id}"
+												th:text="${role.name}" th:selected="${role.id==2}"></option-->
+										</select>
+										<div class="alert-danger"
+											th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}">Name
+											Error</div>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-lg-3 col-form-label form-control-label">Contrasena</label>
+									<div class="col-lg-9">
+										<input class="form-control" type="password" id="password"
+											name="password" th:field="${userForm.password}"
+											th:disabled="${disableFields}">
+										<p id="passwordE">Debe ingresar una contrasena</p>
+										<div class="alert-danger"
+											th:if="${#fields.hasErrors('password')}"
+											th:errors="*{password}">Name Error</div>
+									</div>
+								</div>
+								<div class="form-group row">
+									<label class="col-lg-3 col-form-label form-control-label">Confirmar</label>
+									<div class="col-lg-9">
+										<input class="form-control" type="password" id="password2"
+											name="password2" th:field="${userForm.confirmPassword}"
+											th:disabled="${disableFields}">
+										<p id="password2E">Las contrasenas deben coincidir</p>
+										<div class="alert-danger"
+											th:if="${#fields.hasErrors('confirmPassword')}"
+											th:errors="*{confirmPassword}">Name Error</div>
+									</div>
+								</div>
+								<div class="form-group row">
+									<div class="col-lg-12 text-center">
+										<input type="submit" id="registrar" class="btn btn-primary"
+											value="Registrarse"> <a class="btn btn-secondary"
+											th:href="@{/}">Cancelar</a>
+									</div>
+								</div>
+								<div class="alert-danger" th:if="${formErrorMessage}"
+									th:text="${formErrorMessage}">Error Message</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

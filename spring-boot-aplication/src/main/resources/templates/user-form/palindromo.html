@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>User Information and Form</title>
+
+<!--JQUERY-->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- FRAMEWORK BOOTSTRAP para el estilo de la pagina-->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	crossorigin="anonymous"></script>
+
+<!-- Los iconos tipo Solid de Fontawesome-->
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css">
+<script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+
+<!-- Nuestro css-->
+<link rel="stylesheet" type="text/css" href="static/css/user-form.css"
+	th:href="@{/css/user-form.css}">
+
+<!-- DATA TABLE -->
+<script
+	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script
+	src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+
+<script type="text/javascript">
+	$(document).ready(
+			function() {
+
+				$("#btn1").click(
+						function() {
+
+							var x = palindrome($("#input1").val());
+
+							console.log(x);
+							if (x == true) {
+								alert("La frase '" + $("#input1").val()
+										+ "' es palindromo!");
+							} else {
+								alert("La frase '" + $("#input1").val()
+										+ "' no es palindromo.");
+							}
+							
+							$('#input1').val('');
+
+						});
+
+			});
+
+	function palindrome(str) {
+		var re = /[\W_]/g;
+		var lowRegStr = str.toLowerCase().replace(re, '');
+		var reverseStr = lowRegStr.split('').reverse().join('');
+		return reverseStr === lowRegStr;
+	}
+</script>
+</head>
+<body>
+	<header th:fragment="header">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<a class="navbar-brand" href="#">Spring boot</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item"><a class="btn btn-success"
+						th:href="@{/palindromo}">Palindromos</a></li>
+				</ul>
+				<form class="form-inline my-2 my-lg-0">
+					<a class="btn btn-primary"
+						th:href="@{'/update/'+${#authentication.getPrincipal().getUsername()}}">Actualizar
+						datos</a> <a class="btn btn-danger" th:href="@{/logout}"> <span
+						th:text="${#authentication.getPrincipal().getUsername()}"></span>
+						- <span>logout</span> <span class="float-right"><i
+							class="fas fa-sign-out-alt"></i></span></a>
+				</form>
+			</div>
+		</nav>
+	</header>
+
+	<div class="container h-100">
+		<div class="row justify-content-center h-100">
+			<div class="col-sm-8 align-self-center text-center">
+				<div class="card shadow">
+					<div class="card-body">
+						<div class="form-row align-items-center">
+							<div class="col-auto">
+								<label class="sr-only" for="inlineFormInput">Name</label> <input
+									type="text" class="form-control mb-2" id="input1" name="input1"
+									placeholder="Escriba su palindromo...">
+							</div>
+
+							<div class="col-auto">
+								<button class="btn btn-primary" id="btn1">Palindromo</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+</body>
+</html>

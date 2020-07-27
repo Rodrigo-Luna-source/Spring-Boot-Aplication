@@ -1,0 +1,75 @@
+<div th:with="disableFields=!${editMode} and ${#authorization.expression('hasRole(''ROLE_USER'')')}">
+<form class="form"  role="form" autocomplete="off" th:action="${editMode} ?@{/editUser} :@{/userForm}"
+ th:object="${userForm}" method="post"> 
+ <input class="form-control" type="hidden" th:field="${userForm.id}" th:if="${editMode}">
+	<div class="form-group row">
+		<label class="col-lg-3 col-form-label form-control-label">Nombre</label>
+		<div class="col-lg-9">
+			<input class="form-control" type="text" th:field="${userForm.nombre}" th:disabled="${disableFields}">
+			<div class="alert-danger" th:if="${#fields.hasErrors('nombre')}" 
+			th:errors="*{nombre}">Name Error</div>
+		</div>
+	</div>
+	<div class="form-group row">
+		<label class="col-lg-3 col-form-label form-control-label">RFC</label>
+		<div class="col-lg-9">
+			<input class="form-control" type="text" th:field="${userForm.rfc}" th:disabled="${disableFields}">
+			<div class="alert-danger" th:if="${#fields.hasErrors('rfc')}" 
+			th:errors="*{rfc}">Name Error</div>
+		</div>
+	</div>
+		<div class="form-group row">
+		<label class="col-lg-3 col-form-label form-control-label">Direccion</label>
+		<div class="col-lg-9">
+			<input class="form-control" type="text" th:field="${userForm.direccion}" th:disabled="${disableFields}">
+		</div>
+	</div>
+	<div class="form-group row">
+		<label class="col-lg-3 col-form-label form-control-label">Telefono</label>
+		<div class="col-lg-9">
+			<input class="form-control" type="text" th:field="${userForm.telefono}" th:disabled="${disableFields}">
+	</div>
+	</div>
+	<div class="form-group row">
+		<label class="col-lg-3 col-form-label form-control-label">Website</label>
+		<div class="col-lg-9">
+			<input class="form-control" type="text" th:field="${userForm.website}" th:disabled="${disableFields}">
+		</div>
+	</div>
+	<!--div class="form-group row">
+		<label th:text="Roles"
+			class="col-lg-3 col-form-label form-control-label"></label>
+		<div class="col-lg-9">
+			<select  class="form-control" size="3" th:field="${userForm.roles}" th:disabled="${disableFields}">
+				<option th:each="role :${roles}" th:value="${role.id}"
+					th:text="${role.name}"></option>
+			</select>
+			<div class="alert-danger" th:if="${#fields.hasErrors('roles')}" 
+			th:errors="*{roles}">Name Error</div>
+		</div>
+	</div-->
+	<!-- div class="form-group row">
+		<label class="col-lg-3 col-form-label form-control-label">Contrasena</label>
+		<div class="col-lg-9">
+			<input class="form-control" type="password" th:field="${userForm.password}" th:disabled="${disableFields}">
+			<div class="alert-danger" th:if="${#fields.hasErrors('password')}" 
+			th:errors="*{password}">Name Error</div>
+		</div>
+	</div-->
+	<!--div class="form-group row">
+		<label class="col-lg-3 col-form-label form-control-label">Confirm</label>
+		<div class="col-lg-9">
+			<input class="form-control" type="password" th:field="${userForm.confirmPassword}" th:disabled="${disableFields}">
+			<div class="alert-danger" th:if="${#fields.hasErrors('confirmPassword')}" 
+			th:errors="*{confirmPassword}">Name Error</div>
+		</div>
+	</div-->
+	<div class="form-group row">
+		<div class="col-lg-12 text-center">
+			<a class="btn btn-secondary" th:href="@{'/editUser/cancel'}">Cancelar</a>
+			<input type="submit" class="btn btn-primary" value="Guardar">
+		</div>
+	</div>
+	<div class="alert-danger" th:if="${formErrorMessage}" th:text="${formErrorMessage}">Error Message</div>
+</form>
+</div>
